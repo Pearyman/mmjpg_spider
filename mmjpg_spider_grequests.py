@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 import re
 import os
-import requests
+import grequests
 from lxml import etree
 import time
+from datetime import datetime
 
 # 设置图片存储路径
 PICTURES_PATH = os.path.join(os.getcwd(), 'pictures/')
@@ -35,10 +36,14 @@ class Spider(object):
 
 # 获取妹子的url的方法
     def get_girl_urls(self):
+        time_start = datetime.now()
         for page_url in self.page_urls:
-            html = requests.get(page_url).content
-            selector = etree.HTML(html)
-            self.girl_urls += (selector.xpath('//span[@class="title"]/a/@href'))
+            r = grequests.get(page_url)
+            print(r.response)
+            # selector = etree.HTML(html)
+            # self.girl_urls += (selector.xpath('//span[@class="title"]/a/@href'))
+        time_stop = datetime.now() - time_start
+        x = 1
 
 # 获取图片的url的方法
     def get_pic_urls(self):
